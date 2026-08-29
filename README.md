@@ -20,3 +20,14 @@ Im JavaScript steht oben `HOME_URL`. Er ist derzeit auf `https://andiaguirre81.g
 
 ## Start
 `index.html` öffnen oder den gesamten Inhalt in ein GitHub-Pages-Repository hochladen.
+
+## Neu in v4
+- Mercado-Schrift auf Mobilgeräten vergrößert
+- BUY/SELL als größere Touch-Flächen nebeneinander
+- Transportmittel-Ausbau:
+  - Reisetasche: 20
+  - El Compacto ab Tag 4: 50
+  - Ramón Express ab Tag 7: 100
+  - El Avióncito ab Tag 9: 200
+  - El Submarinito ab Tag 14: 400
+- Transportmittel werden im Inventar gekauft und erhöhen dauerhaft die Kapazität.
