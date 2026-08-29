@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>CARTELITO – Business is Business</title>
+<style>
+:root{
+  --bg:#11130f;
+  --panel:#1c2017;
+  --paper:#f1e3b5;
+  --ink:#1a1b15;
+  --accent:#d58a23;
+  --accent2:#6f9d4d;
+  --danger:#b73e3e;
+  --blue:#3b6e8f;
+  --muted:#a7aa9e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(circle at top,#2a2d1f 0,#12130f 55%,#090a08 100%);color:var(--paper);font-family:"Courier New",monospace;min-height:100%}
+body{padding:14px}
+.wrap{max-width:980px;margin:0 auto}
+.header{
+  border:4px solid #000;
+  background:linear-gradient(135deg,#2f3924,#151a12);
+  box-shadow:8px 8px 0 #000;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+}
+.header:after{
+  content:"";
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 4px);
+  pointer-events:none;
+}
+.logo{font-weight:900;font-size:clamp(30px,7vw,70px);letter-spacing:2px;color:#f7cf58;text-shadow:4px 4px 0 #000,-2px -2px 0 #6d2b18;line-height:.9}
+.sub{margin-top:8px;color:#ddd;font-weight:bold}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}
+.panel{
+  background:var(--panel);
+  border:4px solid #000;
+  box-shadow:6px 6px 0 #000;
+  padding:12px;
+}
+.paper{background:var(--paper);color:var(--ink)}
+h2,h3{margin:0 0 10px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.stat{background:#0d0e0b;border:2px solid #000;padding:8px;text-align:center}
+.stat b{display:block;color:#f6d560;font-size:18px}
+.cityCard{display:flex;gap:12px;align-items:center}
+.avatar{
+  width:140px;height:140px;flex:0 0 140px;background:#c9ad72;border:4px solid #000;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden
+}
+.avatar .face{font-size:72px}
+.badge{position:absolute;bottom:4px;left:4px;right:4px;background:#000;color:#f8d85a;padding:4px;font-size:12px;text-align:center}
+.market table{width:100%;border-collapse:collapse}
+.market th,.market td{padding:8px;border-bottom:2px dashed rgba(0,0,0,.35);text-align:right}
+.market th:first-child,.market td:first-child{text-align:left}
+button{
+  font-family:inherit;font-weight:bold;border:3px solid #000;background:#e4be56;color:#111;padding:9px 12px;
+  box-shadow:3px 3px 0 #000;cursor:pointer;margin:2px
+}
+button:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 #000}
+button.secondary{background:#9ab370}
+button.danger{background:#d56a5e}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.actions{display:flex;flex-wrap:wrap;gap:4px}
+.inv{display:grid;grid-template-columns:1fr auto;gap:6px}
+.event{
+  min-height:120px;background:#0f120e;border:3px solid #000;padding:12px;white-space:pre-line;
+  color:#f5e9c4;
+}
+.event strong{color:#f2cf5b}
+.stars{color:#f2cf5b;letter-spacing:2px}
+.cityBtns{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.cityBtns button{width:100%;margin:0}
+.footer{color:#8c9086;text-align:center;font-size:12px;margin:16px 0}
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:18px;z-index:20
+}
+.modal.show{display:flex}
+.modalBox{max-width:650px;width:100%;background:var(--paper);color:#171712;border:5px solid #000;box-shadow:10px 10px 0 #6e2917;padding:18px}
+.modalBox h2{font-size:32px}
+.ticker{margin-top:12px;padding:8px;background:#000;color:#9ce278;overflow:hidden;white-space:nowrap}
+small.note{color:#bbb}
+@media(max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cityCard{align-items:flex-start}
+  .avatar{width:110px;height:110px;flex-basis:110px}
+  .market th,.market td{padding:7px 4px;font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="logo">CARTELITO</div>
+    <div class="sub">BUSINESS IS BUSINESS · SAN ESCOBAR · 1987</div>
+    <div class="ticker" id="ticker">📺 CANAL 7: "Die Wirtschaft boomt. Niemand weiß warum."</div>
+  </div>
+
+  <div class="panel stats">
+    <div class="stat">TAG<b id="day">1/30</b></div>
+    <div class="stat">PESOS<b id="cash">2.000</b></div>
+    <div class="stat">TASCHE<b id="bag">0/20</b></div>
+    <div class="stat">LEBEN<b id="hp">100</b></div>
+    <div class="stat">FAHNDUNG<b class="stars" id="heat">☆ ☆ ☆ ☆ ☆</b></div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="panel paper">
+        <div class="cityCard">
+          <div class="avatar">
+            <div class="face" id="face">🥸</div>
+            <div class="badge" id="rank">Hawaiihemd-Händler</div>
+          </div>
+          <div>
+            <h2 id="cityName">Santa Coca</h2>
+            <div id="cityDesc">Tropische Hauptstadt. Viel Kaffee, noch mehr Gerüchte.</div>
+            <p><b>Ruf:</b> <span id="rep">0</span> · <b>Vermögen:</b> <span id="wealth">2.000</span> Pesos</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel paper market" style="margin-top:14px">
+        <h2>🧾 Mercado</h2>
+        <table>
+          <thead><tr><th>Ware</th><th>Preis</th><th>Du hast</th><th>Aktion</th></tr></thead>
+          <tbody id="marketBody"></tbody>
+        </table>
+        <small>Satirische Fantasiewaren – keine reale Handelslogik.</small>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h2>🗺️ Reisen</h2>
+        <div class="cityBtns" id="cityButtons"></div>
+        <p><small class="note">Jede Reise kostet einen Tag. Miami wird erst später freigeschaltet.</small></p>
+      </div>
+
+      <div class="panel" style="margin-top:14px">
+        <h2>🎒 Inventar</h2>
+        <div class="inv" id="inventory"></div>
+      </div>
+
+      <div class="panel" style="margin-top:14px">
+        <h2>📻 Ereignis</h2>
+        <div class="event" id="eventBox"><strong>Willkommen, Amigo.</strong>
+Dein Onkel hat dir 2.000 Pesos gegeben und gesagt: „Mach was Vernünftiges damit.“
+Du hast offensichtlich andere Pläne.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">CARTELITO · fiktive Satire · Retro-Browsergame</div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h2 id="modalTitle">GAME OVER</h2>
+    <div id="modalText"></div>
+    <p><button onclick="restart()">NOCHMAL SPIELEN</button></p>
+  </div>
+</div>
+
+<script>
+const goods = [
+  {name:"☕ Kaffee", base:120},
+  {name:"🍬 Puderzucker", base:240},
+  {name:"🌿 Kräuterpakete", base:180},
+  {name:"📼 VHS-Kassetten", base:90},
+  {name:"🪙 Goldkettchen", base:450},
+  {name:"🚬 Zigarren", base:300}
+];
+
+const cities = [
+  {name:"Santa Coca", desc:"Tropische Hauptstadt. Viel Kaffee, noch mehr Gerüchte."},
+  {name:"Puerto Loco", desc:"Hafenstadt mit zweifelhaften Lagerhäusern und sehr neugierigen Möwen."},
+  {name:"Medellín del Mar", desc:"Berge, Villen und Männer mit Sonnenbrillen bei Nacht."},
+  {name:"Villa Pablo", desc:"Hier kennt jeder jemanden, der jemanden kennt."},
+  {name:"San Gringo", desc:"Grenzstadt. Auf jeder Straßenseite steht ein anderer Cousin."},
+  {name:"Miami", desc:"Pastellfarben, Palmen und auffällig viele Bundesbehörden.", unlock:15}
+];
+
+let state;
+
+function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function fmt(n){ return Math.round(n).toLocaleString("de-DE"); }
+
+function freshPrices(){
+  let obj={};
+  goods.forEach(g=>{
+    let factor = 0.55 + Math.random()*1.3;
+    obj[g.name]=Math.max(20,Math.round(g.base*factor/10)*10);
+  });
+  return obj;
+}
+
+function reset(){
+  state={
+    day:1,cash:2000,hp:100,heat:0,rep:0,capacity:20,
+    city:0, inventory:{}, prices:freshPrices(), lastEvent:""
+  };
+  goods.forEach(g=>state.inventory[g.name]=0);
+}
+
+const events = [
+  {txt:"🐴 Dein Cousin hat ein Pferd gekauft. Niemand weiß warum.", act:s=>s.cash=Math.max(0,s.cash-500)},
+  {txt:"📺 Ein US-Sender will eine Serie über dich drehen. Dein Ego wächst.", act:s=>{s.rep+=3;s.heat=Math.min(5,s.heat+1)}},
+  {txt:"☕ Nationale Kaffeekrise! Kaffee wird plötzlich absurd teuer.", act:s=>s.prices["☕ Kaffee"]*=2},
+  {txt:"📼 Eine Telenovela löst VHS-Fieber aus.", act:s=>s.prices["📼 VHS-Kassetten"]*=2},
+  {txt:"👮 Polizeikontrolle. Du überzeugst den Beamten, dass die Goldketten für deine Tante sind.", act:s=>s.heat=Math.max(0,s.heat-1)},
+  {txt:"🎺 Straßenfest! Du spendierst der Band Getränke. Ruf +2.", act:s=>{s.cash=Math.max(0,s.cash-250);s.rep+=2}},
+  {txt:"🕶️ Ein Mann im weißen Anzug flüstert: „Amigo, heute besser unauffällig.“", act:s=>s.heat=Math.max(0,s.heat-1)},
+  {txt:"🪙 Goldketten sind plötzlich total out. Niemand hat dir Bescheid gesagt.", act:s=>s.prices["🪙 Goldkettchen"]=Math.max(40,Math.round(s.prices["🪙 Goldkettchen"]*.55))},
+  {txt:"🚬 Zigarren-Messe in der Stadt. Die Nachfrage explodiert.", act:s=>s.prices["🚬 Zigarren"]*=2},
+  {txt:"🧳 Dein Koffer hat ein geheimes Fach. Tasche +5.", act:s=>s.capacity+=5},
+  {txt:"💸 Ein alter Schulfreund zahlt endlich seine Schulden. +700 Pesos.", act:s=>s.cash+=700},
+  {txt:"🐓 Ein Hahn blockiert die Straße. Der Tag ist trotzdem weg. Südamerika.", act:s=>{}},
+];
+
+const heatEvents = [
+  "🚓 POLICÍA! Du verlierst 10 Leben beim chaotischen Davonlaufen.",
+  "🕵️ Zwei Männer mit Sonnenbrillen lesen deine Zeitung verkehrt herum.",
+  "🚁 Ein Hubschrauber kreist. Bestimmt nur Verkehrsfunk.",
+  "🇺🇸 Jemand sagt sehr amerikanisch: „Nice coffee business.“",
+];
+
+function travel(idx){
+  if(idx===state.city) return;
+  if(cities[idx].unlock && state.day < cities[idx].unlock){
+    showEvent("🔒 Miami ist noch nicht erreichbar. Erst ab Tag "+cities[idx].unlock+".");
+    return;
+  }
+  state.day++;
+  state.city=idx;
+  state.prices=freshPrices();
+
+  let e = events[rand(0,events.length-1)];
+  if(Math.random()<0.72){ e.act(state); showEvent(e.txt); }
+  else showEvent("✈️ VIAJANDO A "+cities[idx].name.toUpperCase()+"…\nDie Reise war verdächtig ereignislos.");
+
+  if(state.heat>=3 && Math.random()<0.35){
+    state.hp -= 10;
+    showEvent(heatEvents[rand(0,heatEvents.length-1)]+"\nFahndung: "+state.heat+"/5");
+  }
+
+  if(Math.random()<0.20) state.heat=Math.min(5,state.heat+1);
+  if(Math.random()<0.15) state.heat=Math.max(0,state.heat-1);
+
+  checkEnd();
+  render();
+}
+
+function slotsUsed(){
+  return Object.values(state.inventory).reduce((a,b)=>a+b,0);
+}
+
+function buy(name){
+  let p=state.prices[name];
+  if(state.cash<p){ showEvent("💸 Nicht genug Pesos, Amigo."); return;}
+  if(slotsUsed()>=state.capacity){ showEvent("🎒 Deine Tasche ist voll."); return;}
+  state.cash-=p;
+  state.inventory[name]++;
+  state.rep++;
+  if(Math.random()<0.04) state.heat=Math.min(5,state.heat+1);
+  render();
+}
+
+function sell(name){
+  if(state.inventory[name]<=0) return;
+  let p=state.prices[name];
+  state.cash+=p;
+  state.inventory[name]--;
+  state.rep++;
+  render();
+}
+
+function totalWealth(){
+  let w=state.cash;
+  goods.forEach(g=>w+=state.inventory[g.name]*state.prices[g.name]);
+  return w;
+}
+
+function rankData(){
+  let w=totalWealth();
+  if(w<8000) return ["🥸","Hawaiihemd-Händler"];
+  if(w<25000) return ["😎","Don Sonnenbrille"];
+  if(w<80000) return ["🕴️","El Patrón del Parkplatz"];
+  if(w<250000) return ["🤵","Señor Business"];
+  return ["👑","DON CARTELITO"];
+}
+
+function showEvent(txt){
+  state.lastEvent=txt;
+  document.getElementById("eventBox").innerHTML="<strong>"+txt.split("\n")[0]+"</strong>"+(txt.includes("\n")?"\n"+txt.split("\n").slice(1).join("\n"):"");
+}
+
+function render(){
+  document.getElementById("day").textContent=state.day+"/30";
+  document.getElementById("cash").textContent=fmt(state.cash);
+  document.getElementById("bag").textContent=slotsUsed()+"/"+state.capacity;
+  document.getElementById("hp").textContent=state.hp;
+  document.getElementById("heat").textContent="★ ".repeat(state.heat)+"☆ ".repeat(5-state.heat);
+  document.getElementById("rep").textContent=state.rep;
+  document.getElementById("wealth").textContent=fmt(totalWealth());
+  document.getElementById("cityName").textContent=cities[state.city].name;
+  document.getElementById("cityDesc").textContent=cities[state.city].desc;
+  let rd=rankData(); document.getElementById("face").textContent=rd[0]; document.getElementById("rank").textContent=rd[1];
+
+  const body=document.getElementById("marketBody");
+  body.innerHTML="";
+  goods.forEach(g=>{
+    let tr=document.createElement("tr");
+    tr.innerHTML=`<td>${g.name}</td><td>${fmt(state.prices[g.name])}</td><td>${state.inventory[g.name]}</td>
+      <td><button onclick='buy(${JSON.stringify(g.name)})'>K</button><button class="secondary" onclick='sell(${JSON.stringify(g.name)})'>V</button></td>`;
+    body.appendChild(tr);
+  });
+
+  const inv=document.getElementById("inventory");
+  inv.innerHTML="";
+  goods.forEach(g=>{
+    if(state.inventory[g.name]>0){
+      inv.innerHTML += `<div>${g.name}</div><div>${state.inventory[g.name]}×</div>`;
+    }
+  });
+  if(slotsUsed()===0) inv.innerHTML="<div>Leer. Nur ein zerknittertes Foto deiner Mutter.</div><div></div>";
+
+  const cb=document.getElementById("cityButtons");
+  cb.innerHTML="";
+  cities.forEach((c,i)=>{
+    let locked=c.unlock && state.day<c.unlock;
+    cb.innerHTML += `<button ${i===state.city||locked?"disabled":""} onclick="travel(${i})">${locked?"🔒 ":""}${c.name}</button>`;
+  });
+
+  document.getElementById("ticker").textContent = tickerLines[rand(0,tickerLines.length-1)];
+}
+
+const tickerLines=[
+  '📺 CANAL 7: "Die Wirtschaft boomt. Niemand weiß warum."',
+  '📻 RADIO LOCO: "Heute 32 Grad. Morgen vermutlich auch."',
+  '📰 EL DIARIO: "Minister bestreitet alles. Noch bevor jemand gefragt hat."',
+  '📺 TELENOVELA: "¡MIGUEL! Du bist mein Bruder UND mein Anwalt?!"',
+  '⚽ SPORT: San Escobar verliert 0:4. Nationaler Feiertag trotzdem bestätigt.'
+];
+
+function checkEnd(){
+  if(state.hp<=0){
+    endGame("GAME OVER","Du bist beim Davonlaufen über einen dekorativen Springbrunnen gefallen.<br><br><b>Die Polizei war ebenfalls überrascht.</b>");
+    return;
+  }
+  if(state.day>30){
+    finish();
+  }
+}
+
+function finish(){
+  let w=totalWealth();
+  let title="",text="";
+  if(w<10000){title="☕ KAFFEEKÖNIG";text="Du besitzt jetzt einen ausgezeichneten Kaffeestand.";}
+  else if(w<50000){title="😎 EL PATRÓN DEL PARKPLATZ";text="Drei Leute nennen dich Don. Zwei davon sind deine Cousins.";}
+  else if(w<150000){title="🏝️ SEÑOR BUSINESS";text="Du besitzt eine Villa, einen Pool und aus irgendeinem Grund sechs Pfauen.";}
+  else if(w<500000){title="📺 STREAMING-LEGENDE";text="Ein Streamingdienst hat bereits fünf Staffeln über dich bestellt.";}
+  else {title="👑 DU HAST SAN ESCOBAR DURCHGESPIELT";text="Uncle Sam möchte dringend mit dir über dein Exportgeschäft sprechen.";}
+  text+=`<br><br><b>Endvermögen: ${fmt(w)} Pesos</b><br>Ruf: ${state.rep} · Fahndung: ${state.heat}/5`;
+  endGame(title,text);
+}
+
+function endGame(title,text){
+  document.getElementById("modalTitle").innerHTML=title;
+  document.getElementById("modalText").innerHTML=text;
+  document.getElementById("modal").classList.add("show");
+}
+
+function restart(){
+  document.getElementById("modal").classList.remove("show");
+  reset(); render(); showEvent("🎬 Neue Runde. Dein Onkel seufzt bereits.");
+}
+
+reset(); render();
+</script>
+</body>
+</html>
