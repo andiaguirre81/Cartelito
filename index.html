@@ -83,6 +83,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .modal.show{display:flex}
 .modalBox{max-width:650px;width:100%;background:var(--paper);color:#171712;border:5px solid #000;box-shadow:10px 10px 0 #6e2917;padding:18px}
 .modalBox h2{font-size:32px}
+.choiceRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.startOptions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.startOptions button{font-size:20px;padding:18px 10px}.priceGood{color:#2f7d32;font-weight:bold}.priceBad{color:#9d2d2d;font-weight:bold}
 .ticker{margin-top:12px;padding:8px;background:#000;color:#9ce278;overflow:hidden;white-space:nowrap}
 small.note{color:#bbb}
 @media(max-width:760px){
@@ -91,6 +92,7 @@ small.note{color:#bbb}
   .cityCard{align-items:flex-start}
   .avatar{width:110px;height:110px;flex-basis:110px}
   .market th,.market td{padding:7px 4px;font-size:14px}
+  .startOptions{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -129,7 +131,7 @@ small.note{color:#bbb}
       <div class="panel paper market" style="margin-top:14px">
         <h2>🧾 Mercado</h2>
         <table>
-          <thead><tr><th>Ware</th><th>Preis</th><th>Du hast</th><th>Aktion</th></tr></thead>
+          <thead><tr><th>Ware</th><th>Preis</th><th>Bestand</th><th>Ø Einkauf</th><th>Aktion</th></tr></thead>
           <tbody id="marketBody"></tbody>
         </table>
         <small>Satirische Fantasiewaren – keine reale Handelslogik.</small>
@@ -140,7 +142,7 @@ small.note{color:#bbb}
       <div class="panel">
         <h2>🗺️ Reisen</h2>
         <div class="cityBtns" id="cityButtons"></div>
-        <p><small class="note">Jede Reise kostet einen Tag. Miami wird erst später freigeschaltet.</small></p>
+        <p><small class="note">Jede Reise kostet einen Tag. Miami wird je nach Spieldauer später freigeschaltet.</small></p>
       </div>
 
       <div class="panel" style="margin-top:14px">
@@ -160,6 +162,27 @@ Du hast offensichtlich andere Pläne.</div>
   <div class="footer">CARTELITO · fiktive Satire · Retro-Browsergame</div>
 </div>
 
+
+<div class="modal show" id="startModal">
+  <div class="modalBox">
+    <h2>🎬 WIE LANGE HÄLTST DU DURCH?</h2>
+    <p>Wähle die Länge deiner Karriere in San Escobar.</p>
+    <div class="startOptions">
+      <button onclick="startGame(10)">10 TAGE<br><small>Kurz & brutal</small></button>
+      <button onclick="startGame(20)">20 TAGE<br><small>Der Klassiker</small></button>
+      <button onclick="startGame(30)">30 TAGE<br><small>Volle Telenovela</small></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="choiceModal">
+  <div class="modalBox">
+    <h2 id="choiceTitle">🚨 ÄRGER</h2>
+    <div id="choiceText"></div>
+    <div class="choiceRow" id="choiceButtons"></div>
+  </div>
+</div>
+
 <div class="modal" id="modal">
   <div class="modalBox">
     <h2 id="modalTitle">GAME OVER</h2>
@@ -173,7 +196,7 @@ const goods = [
   {name:"☕ Kaffee", base:120},
   {name:"🍬 Puderzucker", base:240},
   {name:"🌿 Kräuterpakete", base:180},
-  {name:"📼 VHS-Kassetten", base:90},
+  {name:"🔞 Schmuddelfilmchen", base:90},
   {name:"🪙 Goldkettchen", base:450},
   {name:"🚬 Zigarren", base:300}
 ];
@@ -201,27 +224,36 @@ function freshPrices(){
   return obj;
 }
 
-function reset(){
+function reset(days=30){
   state={
-    day:1,cash:2000,hp:100,heat:0,rep:0,capacity:20,
-    city:0, inventory:{}, prices:freshPrices(), lastEvent:""
+    day:1,maxDays:days,cash:2000,hp:100,heat:0,rep:0,capacity:20,
+    city:0, inventory:{}, avgBuy:{}, prices:freshPrices(), lastEvent:""
   };
-  goods.forEach(g=>state.inventory[g.name]=0);
+  goods.forEach(g=>{state.inventory[g.name]=0;state.avgBuy[g.name]=0;});
+}
+
+function startGame(days){
+  reset(days);
+  document.getElementById("startModal").classList.remove("show");
+  showEvent("🎬 "+days+" Tage San Escobar.\nDein Onkel hat dir 2.000 Pesos gegeben und gesagt: „Mach was Vernünftiges damit.“");
+  render();
 }
 
 const events = [
-  {txt:"🐴 Dein Cousin hat ein Pferd gekauft. Niemand weiß warum.", act:s=>s.cash=Math.max(0,s.cash-500)},
-  {txt:"📺 Ein US-Sender will eine Serie über dich drehen. Dein Ego wächst.", act:s=>{s.rep+=3;s.heat=Math.min(5,s.heat+1)}},
-  {txt:"☕ Nationale Kaffeekrise! Kaffee wird plötzlich absurd teuer.", act:s=>s.prices["☕ Kaffee"]*=2},
-  {txt:"📼 Eine Telenovela löst VHS-Fieber aus.", act:s=>s.prices["📼 VHS-Kassetten"]*=2},
-  {txt:"👮 Polizeikontrolle. Du überzeugst den Beamten, dass die Goldketten für deine Tante sind.", act:s=>s.heat=Math.max(0,s.heat-1)},
-  {txt:"🎺 Straßenfest! Du spendierst der Band Getränke. Ruf +2.", act:s=>{s.cash=Math.max(0,s.cash-250);s.rep+=2}},
-  {txt:"🕶️ Ein Mann im weißen Anzug flüstert: „Amigo, heute besser unauffällig.“", act:s=>s.heat=Math.max(0,s.heat-1)},
-  {txt:"🪙 Goldketten sind plötzlich total out. Niemand hat dir Bescheid gesagt.", act:s=>s.prices["🪙 Goldkettchen"]=Math.max(40,Math.round(s.prices["🪙 Goldkettchen"]*.55))},
-  {txt:"🚬 Zigarren-Messe in der Stadt. Die Nachfrage explodiert.", act:s=>s.prices["🚬 Zigarren"]*=2},
-  {txt:"🧳 Dein Koffer hat ein geheimes Fach. Tasche +5.", act:s=>s.capacity+=5},
-  {txt:"💸 Ein alter Schulfreund zahlt endlich seine Schulden. +700 Pesos.", act:s=>s.cash+=700},
-  {txt:"🐓 Ein Hahn blockiert die Straße. Der Tag ist trotzdem weg. Südamerika.", act:s=>{}},
+  {txt:"⛪ Eine religiöse Sekte übernimmt das Kulturministerium. Schmuddelfilmchen werden verboten – die Preise explodieren.", act:s=>s.prices["🔞 Schmuddelfilmchen"]*=3},
+  {txt:"🍬 Der Präsident braucht dringend Puderzucker für einen 'Staatsempfang'. Er zahlt absurd hohe Preise.", act:s=>s.prices["🍬 Puderzucker"]*=3},
+  {txt:"🌼 Eine verrückte Hippie-Sekte gewinnt die Wahl. 'Alles gehört allen!' Kräuterpakete sind fast wertlos.", act:s=>s.prices["🌿 Kräuterpakete"]=Math.max(10,Math.round(s.prices["🌿 Kräuterpakete"]*.25))},
+  {txt:"🔞 Nationale Moralpanik! Schmuddelfilmchen seien schuld am Untergang der Jugend. Preise steigen.", act:s=>s.prices["🔞 Schmuddelfilmchen"]*=2},
+  {txt:"☕ Der Präsident erklärt Kaffee zum patriotischen Grundnahrungsmittel. Preise steigen.", act:s=>s.prices["☕ Kaffee"]*=2},
+  {txt:"🚬 Ein internationaler Zigarrenkongress landet versehentlich in San Escobar. Nachfrage explodiert.", act:s=>s.prices["🚬 Zigarren"]*=2},
+  {txt:"🪙 Ein Popstar trägt plötzlich zehn Goldketten gleichzeitig. Das Land dreht durch.", act:s=>s.prices["🪙 Goldkettchen"]*=2},
+  {txt:"🐴 Dein Cousin hat ein Pferd gekauft. Natürlich von deinem Geld. -500 Pesos.", act:s=>s.cash=Math.max(0,s.cash-500)},
+  {txt:"💸 Cousin Ramón zahlt endlich seine Schulden. Niemand weiß, woher das Geld kommt. +700 Pesos.", act:s=>s.cash+=700},
+  {txt:"🧳 Ein Schneider baut dir ein geheimes Fach in den Koffer. Tasche +5.", act:s=>s.capacity+=5},
+  {txt:"📺 Ein US-Sender will eine Serie über dich drehen. Fahndung +1, Ruf +3.", act:s=>{s.rep+=3;s.heat=Math.min(5,s.heat+1)}},
+  {txt:"🎺 Du finanzierst spontan ein Straßenfest. Ruf +2, -250 Pesos.", act:s=>{s.cash=Math.max(0,s.cash-250);s.rep+=2}},
+  {txt:"🕶️ Ein Mann im weißen Anzug warnt dich: 'Heute besser unauffällig.' Fahndung -1.", act:s=>s.heat=Math.max(0,s.heat-1)},
+  {txt:"📰 Der Finanzminister sagt: 'Die Lage ist vollkommen unter Kontrolle.' Alle Preise springen durcheinander.", act:s=>s.prices=freshPrices()},
 ];
 
 const heatEvents = [
@@ -231,30 +263,63 @@ const heatEvents = [
   "🇺🇸 Jemand sagt sehr amerikanisch: „Nice coffee business.“",
 ];
 
+function loseRandomGoods(n){
+  let owned=goods.filter(g=>state.inventory[g.name]>0);
+  for(let i=0;i<n && owned.length;i++){
+    let g=owned[rand(0,owned.length-1)];
+    state.inventory[g.name]--;
+    if(state.inventory[g.name]===0) state.avgBuy[g.name]=0;
+    owned=goods.filter(x=>state.inventory[x.name]>0);
+  }
+}
+
+function showChoice(title,text,choices){
+  document.getElementById("choiceTitle").textContent=title;
+  document.getElementById("choiceText").textContent=text;
+  const box=document.getElementById("choiceButtons"); box.innerHTML="";
+  choices.forEach(c=>{
+    const b=document.createElement("button"); b.textContent=c.label;
+    b.onclick=()=>{document.getElementById("choiceModal").classList.remove("show");c.action();checkEnd();render();};
+    box.appendChild(b);
+  });
+  document.getElementById("choiceModal").classList.add("show");
+}
+
+function ciaEvent(){
+  showChoice("🕵️ CIA?","Ein schwarzer Wagen folgt dir seit drei Straßen. Dann knallt irgendwo eine Mülltonne. Vielleicht ein Anschlag. Vielleicht Dienstag.",[
+    {label:"🏃 FLIEHEN",action:()=>{if(Math.random()<.35){state.hp-=15;showEvent("💥 Du entkommst, aber nicht elegant. -15 Leben.");}else showEvent("🏃 Du verschwindest durch eine Wäscherei. Niemand stellt Fragen.");}},
+    {label:"🕶️ COOL BLEIBEN",action:()=>{if(Math.random()<.5){state.heat=Math.max(0,state.heat-1);showEvent("😎 Du bestellst einen Kaffee. Die Männer fahren weiter.");}else{state.heat=Math.min(5,state.heat+1);showEvent("📸 Schlechte Idee. Jemand fotografiert dich. Fahndung +1.");}}}
+  ]);
+}
+
+function shootoutEvent(){
+  showChoice("🔫 SCHÜSSE IN DER NACHT","Zwei rivalisierende Comic-Gangster geraten auf der Straße aneinander. Du bist leider genau dazwischen.",[
+    {label:"🚪 VERSTECKEN",action:()=>{if(Math.random()<.25){loseRandomGoods(1);showEvent("🚪 Du bist sicher, aber im Gedränge verschwindet eine Ware.");}else showEvent("🚪 Eine sehr stabile Obstkiste rettet den Abend.");}},
+    {label:"🏃 ABHAUEN",action:()=>{if(Math.random()<.3){state.hp-=10;showEvent("💨 Du stolperst beim Sprint. -10 Leben.");}else showEvent("💨 Neuer persönlicher Rekord über 100 Meter.");}}
+  ]);
+}
+
+function policeEvent(){
+  showChoice("🚓 POLICÍA!","Eine Kontrolle. Der Beamte schaut erst dich an, dann deine Tasche, dann wieder dich.",[
+    {label:"🙂 HARMLOS TUN",action:()=>{if(Math.random()<.55){state.heat=Math.max(0,state.heat-1);showEvent("🙂 'Nur Geschenke für die Familie.' Er glaubt dir überraschend.");}else{state.cash=Math.max(0,state.cash-300);showEvent("💸 Verwaltungsgebühr. Natürlich ohne Quittung. -300 Pesos.");}}},
+    {label:"🏃 WEG!",action:()=>{if(Math.random()<.45){state.hp-=10;state.heat=Math.min(5,state.heat+1);showEvent("🚓 Flucht geglückt-ish. -10 Leben, Fahndung +1.");}else showEvent("🏃 Du springst in einen Bus. Der Fahrer fragt nichts.");}}
+  ]);
+}
+
 function travel(idx){
   if(idx===state.city) return;
-  if(cities[idx].unlock && state.day < cities[idx].unlock){
-    showEvent("🔒 Miami ist noch nicht erreichbar. Erst ab Tag "+cities[idx].unlock+".");
-    return;
-  }
-  state.day++;
-  state.city=idx;
-  state.prices=freshPrices();
-
-  let e = events[rand(0,events.length-1)];
-  if(Math.random()<0.72){ e.act(state); showEvent(e.txt); }
+  const unlock=Math.max(4,Math.ceil(state.maxDays*.5));
+  if(idx===5 && state.day<unlock){showEvent("🔒 Miami ist erst ab Tag "+unlock+" erreichbar.");return;}
+  state.day++; state.city=idx; state.prices=freshPrices();
+  const roll=Math.random();
+  if(roll<.10) ciaEvent();
+  else if(roll<.20) shootoutEvent();
+  else if(roll<.31 || (state.heat>=3 && roll<.42)) policeEvent();
+  else if(roll<.82){let e=events[rand(0,events.length-1)];e.act(state);showEvent(e.txt);}
   else showEvent("✈️ VIAJANDO A "+cities[idx].name.toUpperCase()+"…\nDie Reise war verdächtig ereignislos.");
-
-  if(state.heat>=3 && Math.random()<0.35){
-    state.hp -= 10;
-    showEvent(heatEvents[rand(0,heatEvents.length-1)]+"\nFahndung: "+state.heat+"/5");
-  }
-
-  if(Math.random()<0.20) state.heat=Math.min(5,state.heat+1);
-  if(Math.random()<0.15) state.heat=Math.max(0,state.heat-1);
-
-  checkEnd();
-  render();
+  if(Math.random()<.14) state.heat=Math.min(5,state.heat+1);
+  if(Math.random()<.12) state.heat=Math.max(0,state.heat-1);
+  checkEnd(); render();
 }
 
 function slotsUsed(){
@@ -262,11 +327,12 @@ function slotsUsed(){
 }
 
 function buy(name){
-  let p=state.prices[name];
+  let p=state.prices[name], old=state.inventory[name];
   if(state.cash<p){ showEvent("💸 Nicht genug Pesos, Amigo."); return;}
   if(slotsUsed()>=state.capacity){ showEvent("🎒 Deine Tasche ist voll."); return;}
   state.cash-=p;
   state.inventory[name]++;
+  state.avgBuy[name]=((state.avgBuy[name]*old)+p)/(old+1);
   state.rep++;
   if(Math.random()<0.04) state.heat=Math.min(5,state.heat+1);
   render();
@@ -277,6 +343,7 @@ function sell(name){
   let p=state.prices[name];
   state.cash+=p;
   state.inventory[name]--;
+  if(state.inventory[name]===0) state.avgBuy[name]=0;
   state.rep++;
   render();
 }
@@ -302,7 +369,7 @@ function showEvent(txt){
 }
 
 function render(){
-  document.getElementById("day").textContent=state.day+"/30";
+  document.getElementById("day").textContent=state.day+"/"+state.maxDays;
   document.getElementById("cash").textContent=fmt(state.cash);
   document.getElementById("bag").textContent=slotsUsed()+"/"+state.capacity;
   document.getElementById("hp").textContent=state.hp;
@@ -317,8 +384,10 @@ function render(){
   body.innerHTML="";
   goods.forEach(g=>{
     let tr=document.createElement("tr");
-    tr.innerHTML=`<td>${g.name}</td><td>${fmt(state.prices[g.name])}</td><td>${state.inventory[g.name]}</td>
-      <td><button onclick='buy(${JSON.stringify(g.name)})'>K</button><button class="secondary" onclick='sell(${JSON.stringify(g.name)})'>V</button></td>`;
+    let avg=state.avgBuy[g.name]>0?fmt(state.avgBuy[g.name]):"–";
+    let cls=state.avgBuy[g.name]>0?(state.prices[g.name]>=state.avgBuy[g.name]?"priceGood":"priceBad"):"";
+    tr.innerHTML=`<td>${g.name}</td><td class="${cls}">${fmt(state.prices[g.name])}</td><td>${state.inventory[g.name]}</td><td>${avg}</td>
+      <td><button onclick='buy(${JSON.stringify(g.name)})'>BUY</button><button class="secondary" onclick='sell(${JSON.stringify(g.name)})'>SELL</button></td>`;
     body.appendChild(tr);
   });
 
@@ -326,7 +395,7 @@ function render(){
   inv.innerHTML="";
   goods.forEach(g=>{
     if(state.inventory[g.name]>0){
-      inv.innerHTML += `<div>${g.name}</div><div>${state.inventory[g.name]}×</div>`;
+      inv.innerHTML += `<div>${g.name}<br><small>Ø Einkauf: ${fmt(state.avgBuy[g.name])}</small></div><div>${state.inventory[g.name]}×</div>`;
     }
   });
   if(slotsUsed()===0) inv.innerHTML="<div>Leer. Nur ein zerknittertes Foto deiner Mutter.</div><div></div>";
@@ -334,7 +403,7 @@ function render(){
   const cb=document.getElementById("cityButtons");
   cb.innerHTML="";
   cities.forEach((c,i)=>{
-    let locked=c.unlock && state.day<c.unlock;
+    let unlock=Math.max(4,Math.ceil(state.maxDays*.5)); let locked=(i===5 && state.day<unlock);
     cb.innerHTML += `<button ${i===state.city||locked?"disabled":""} onclick="travel(${i})">${locked?"🔒 ":""}${c.name}</button>`;
   });
 
@@ -346,7 +415,9 @@ const tickerLines=[
   '📻 RADIO LOCO: "Heute 32 Grad. Morgen vermutlich auch."',
   '📰 EL DIARIO: "Minister bestreitet alles. Noch bevor jemand gefragt hat."',
   '📺 TELENOVELA: "¡MIGUEL! Du bist mein Bruder UND mein Anwalt?!"',
-  '⚽ SPORT: San Escobar verliert 0:4. Nationaler Feiertag trotzdem bestätigt.'
+  '⚽ SPORT: San Escobar verliert 0:4. Nationaler Feiertag trotzdem bestätigt.',
+  '🕵️ BREAKING: Regierung dementiert Existenz des Gebäudes, vor dem sie gerade steht.',
+  '📻 RADIO LOCO: Der Präsident verspricht stabile Preise. Händler lachen hörbar.'
 ];
 
 function checkEnd(){
@@ -354,7 +425,7 @@ function checkEnd(){
     endGame("GAME OVER","Du bist beim Davonlaufen über einen dekorativen Springbrunnen gefallen.<br><br><b>Die Polizei war ebenfalls überrascht.</b>");
     return;
   }
-  if(state.day>30){
+  if(state.day>state.maxDays){
     finish();
   }
 }
@@ -379,10 +450,10 @@ function endGame(title,text){
 
 function restart(){
   document.getElementById("modal").classList.remove("show");
-  reset(); render(); showEvent("🎬 Neue Runde. Dein Onkel seufzt bereits.");
+  document.getElementById("startModal").classList.add("show");
 }
 
-reset(); render();
+reset(30); render();
 </script>
 </body>
 </html>
