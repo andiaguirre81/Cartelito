@@ -1,459 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10140e">
 <title>CARTELITO – Business is Business</title>
 <style>
-:root{
-  --bg:#11130f;
-  --panel:#1c2017;
-  --paper:#f1e3b5;
-  --ink:#1a1b15;
-  --accent:#d58a23;
-  --accent2:#6f9d4d;
-  --danger:#b73e3e;
-  --blue:#3b6e8f;
-  --muted:#a7aa9e;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:radial-gradient(circle at top,#2a2d1f 0,#12130f 55%,#090a08 100%);color:var(--paper);font-family:"Courier New",monospace;min-height:100%}
-body{padding:14px}
-.wrap{max-width:980px;margin:0 auto}
-.header{
-  border:4px solid #000;
-  background:linear-gradient(135deg,#2f3924,#151a12);
-  box-shadow:8px 8px 0 #000;
-  padding:16px;
-  position:relative;
-  overflow:hidden;
-}
-.header:after{
-  content:"";
-  position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 4px);
-  pointer-events:none;
-}
-.logo{font-weight:900;font-size:clamp(30px,7vw,70px);letter-spacing:2px;color:#f7cf58;text-shadow:4px 4px 0 #000,-2px -2px 0 #6d2b18;line-height:.9}
-.sub{margin-top:8px;color:#ddd;font-weight:bold}
-.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}
-.panel{
-  background:var(--panel);
-  border:4px solid #000;
-  box-shadow:6px 6px 0 #000;
-  padding:12px;
-}
-.paper{background:var(--paper);color:var(--ink)}
-h2,h3{margin:0 0 10px}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-.stat{background:#0d0e0b;border:2px solid #000;padding:8px;text-align:center}
-.stat b{display:block;color:#f6d560;font-size:18px}
-.cityCard{display:flex;gap:12px;align-items:center}
-.avatar{
-  width:140px;height:140px;flex:0 0 140px;background:#c9ad72;border:4px solid #000;
-  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden
-}
-.avatar .face{font-size:72px}
-.badge{position:absolute;bottom:4px;left:4px;right:4px;background:#000;color:#f8d85a;padding:4px;font-size:12px;text-align:center}
-.market table{width:100%;border-collapse:collapse}
-.market th,.market td{padding:8px;border-bottom:2px dashed rgba(0,0,0,.35);text-align:right}
-.market th:first-child,.market td:first-child{text-align:left}
-button{
-  font-family:inherit;font-weight:bold;border:3px solid #000;background:#e4be56;color:#111;padding:9px 12px;
-  box-shadow:3px 3px 0 #000;cursor:pointer;margin:2px
-}
-button:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 #000}
-button.secondary{background:#9ab370}
-button.danger{background:#d56a5e}
-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.actions{display:flex;flex-wrap:wrap;gap:4px}
-.inv{display:grid;grid-template-columns:1fr auto;gap:6px}
-.event{
-  min-height:120px;background:#0f120e;border:3px solid #000;padding:12px;white-space:pre-line;
-  color:#f5e9c4;
-}
-.event strong{color:#f2cf5b}
-.stars{color:#f2cf5b;letter-spacing:2px}
-.cityBtns{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.cityBtns button{width:100%;margin:0}
-.footer{color:#8c9086;text-align:center;font-size:12px;margin:16px 0}
-.modal{
-  position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:18px;z-index:20
-}
-.modal.show{display:flex}
-.modalBox{max-width:650px;width:100%;background:var(--paper);color:#171712;border:5px solid #000;box-shadow:10px 10px 0 #6e2917;padding:18px}
-.modalBox h2{font-size:32px}
-.choiceRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.startOptions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.startOptions button{font-size:20px;padding:18px 10px}.priceGood{color:#2f7d32;font-weight:bold}.priceBad{color:#9d2d2d;font-weight:bold}
-.ticker{margin-top:12px;padding:8px;background:#000;color:#9ce278;overflow:hidden;white-space:nowrap}
-small.note{color:#bbb}
-@media(max-width:760px){
-  .grid{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .cityCard{align-items:flex-start}
-  .avatar{width:110px;height:110px;flex-basis:110px}
-  .market th,.market td{padding:7px 4px;font-size:14px}
-  .startOptions{grid-template-columns:1fr}
-}
+:root{--bg:#10130d;--panel:#181d15;--paper:#f2e2ae;--ink:#16170f;--gold:#efc64f;--green:#96b56b;--red:#c95543;--muted:#a4a894;--cyan:#61b2b4;--purple:#a849a5}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#090b08;color:#f3e4b7;font-family:"Courier New",monospace}body{padding:0 0 76px}
+button{font:700 15px "Courier New",monospace;border:3px solid #050605;background:var(--gold);color:#111;padding:10px 12px;box-shadow:3px 3px 0 #000;cursor:pointer;border-radius:2px}button:active{transform:translate(2px,2px);box-shadow:1px 1px #000}button.alt{background:var(--green)}button.red{background:#d96750}button.dark{background:#2b3126;color:#f3e4b7}button:disabled{opacity:.42;cursor:not-allowed}
+#app{max-width:760px;margin:auto;min-height:100vh;background:linear-gradient(#1e2418,#0d100c)}
+.topbar{position:sticky;top:0;z-index:20;background:#11160f;border-bottom:4px solid #000;padding:8px 10px;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.brand{min-width:0}.title{font-weight:900;font-size:26px;color:#f4cc57;text-shadow:2px 2px #743019;letter-spacing:1px;line-height:1}.subtitle{font-size:10px;color:#ddd;margin-top:3px}.studio{width:58px;height:34px;object-fit:contain;border-radius:3px}.homeBtn{min-width:48px;padding:7px 9px;font-size:11px;background:#151915;color:#f4e9c4;border-color:#92b52c}.homeIcon{display:block;font-size:18px;line-height:1}
+.screen{display:none;padding:10px}.screen.active{display:block}.card{background:var(--panel);border:3px solid #050605;box-shadow:4px 4px 0 #000;padding:11px;margin-bottom:10px}.paper{background:var(--paper);color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.stat{background:#090b08;border:2px solid #000;text-align:center;padding:7px 3px;font-size:10px}.stat b{display:block;color:#f0cb54;font-size:15px;margin-top:3px}.stars{font-size:12px!important;white-space:nowrap}
+.hero{display:grid;grid-template-columns:92px 1fr;gap:11px;align-items:center}.hero img{width:92px;height:88px;object-fit:cover;border:3px solid #000}.hero h2{margin:0 0 5px;font-size:24px}.hero p{margin:3px 0;font-size:13px;line-height:1.35}.rank{display:inline-block;background:#050505;color:#efd15f;padding:3px 5px;font-size:10px;margin-top:3px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick button{min-height:64px;font-size:16px}.radio{background:#050705;border:2px solid #000;color:#8fc377;padding:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}.sectionTitle{display:flex;align-items:center;gap:8px;font-size:22px;margin:0 0 10px}.sectionTitle small{font-size:11px;color:var(--muted)}
+.citygrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.citygrid button{min-height:58px}.citygrid button.current{background:#86783d}.marketHead{display:flex;justify-content:space-between;gap:8px;align-items:flex-end}.marketHead h2{margin:0;font-size:22px}.marketHead div{font-size:11px;color:#5b5a4b;text-align:right}.goods{margin-top:8px}.good{display:grid;grid-template-columns:minmax(0,1.5fr) .72fr .72fr auto;gap:6px;align-items:center;padding:10px 0;border-top:2px dashed #77715b}.gname{font-size:13px}.gprice,.gavg{text-align:right;font-size:13px}.trade{display:flex;gap:4px}.trade button{padding:8px 7px;font-size:11px;box-shadow:2px 2px #000}.profit{color:#28742d;font-weight:bold}.loss{color:#a52e29;font-weight:bold}.tiny{font-size:10px;color:#6a6758}
+.inventoryRow{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:10px 2px;border-bottom:1px dashed #656755;align-items:center}.inventoryRow:last-child{border:0}.badge{background:#080a07;color:#f2d065;padding:3px 6px}.empty{padding:24px 8px;color:#aaa;text-align:center}
+.historyTabs{display:flex;gap:5px;overflow:auto;padding-bottom:5px}.historyTabs button{white-space:nowrap;padding:7px;font-size:10px}.chart{height:180px;background:#070906;border:2px solid #000;padding:8px;position:relative;display:flex;align-items:flex-end;gap:5px}.bar{flex:1;min-width:8px;background:#9dbd57;border:1px solid #000;position:relative}.bar span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:8px;color:#f4e7bc;white-space:nowrap}.historyMeta{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px}.historyMeta div{background:#0b0d0a;padding:7px;text-align:center;font-size:10px}.historyMeta b{display:block;color:#f0cc55;font-size:13px}
+.bottomnav{position:fixed;z-index:18;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:#090b08;border-top:3px solid #000;padding:5px calc(6px + env(safe-area-inset-right)) calc(5px + env(safe-area-inset-bottom)) calc(6px + env(safe-area-inset-left))}.bottomnav button{background:#20251c;color:#e9ddbb;box-shadow:none;border:1px solid #444;padding:7px 2px;font-size:10px;min-height:47px}.bottomnav button.on{color:#ffd95d;border-color:#d6ad42}.bottomnav .ico{display:block;font-size:18px;margin-bottom:2px}
+.overlay{position:fixed;z-index:50;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:14px}.overlay.show{display:flex}.eventbox{max-width:620px;width:100%;background:#171b14;border:4px solid #000;box-shadow:7px 7px #000;max-height:95vh;overflow:auto}.eventimg{width:100%;max-height:46vh;object-fit:cover;display:block;border-bottom:4px solid #000}.eventbody{padding:12px}.eventbody h2{margin:0 0 7px;color:#f3cb51;font-size:23px}.eventbody p{font-size:14px;line-height:1.4;margin:5px 0}.effect{background:#f1dfaa;color:#17170f;border:2px solid #000;padding:8px;margin:9px 0;font-weight:bold}.choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.choices.one{grid-template-columns:1fr}
+.startbox{text-align:center}.startLogo{width:90px;height:60px;object-fit:contain}.startbox h1{font-size:38px;margin:5px;color:#f1c84e;text-shadow:3px 3px #762d1c}.days{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:15px 0}.days button{min-height:70px;font-size:18px}.smallprint{font-size:10px;color:#999}
+.toast{position:fixed;z-index:40;left:50%;bottom:72px;transform:translateX(-50%);background:#050505;color:#f5da78;border:2px solid #b59635;padding:8px 12px;display:none;max-width:90%;text-align:center}.toast.show{display:block}
+@media(max-width:430px){.topbar{grid-template-columns:1fr 52px 48px}.title{font-size:23px}.studio{width:50px}.stats{grid-template-columns:repeat(3,1fr)}.stat:nth-child(4),.stat:nth-child(5){grid-column:auto}.hero{grid-template-columns:78px 1fr}.hero img{width:78px;height:78px}.hero h2{font-size:21px}.goods .good{grid-template-columns:minmax(0,1.35fr) .65fr .65fr 76px}.trade{flex-direction:column}.trade button{padding:6px 4px}.gname,.gprice,.gavg{font-size:11px}.choices{grid-template-columns:1fr}.days{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
-    <div class="logo">CARTELITO</div>
-    <div class="sub">BUSINESS IS BUSINESS · SAN ESCOBAR · 1987</div>
-    <div class="ticker" id="ticker">📺 CANAL 7: "Die Wirtschaft boomt. Niemand weiß warum."</div>
-  </div>
+<div id="app">
+<header class="topbar">
+ <div class="brand"><div class="title">CARTELITO</div><div class="subtitle">BUSINESS IS BUSINESS · SAN ESCOBAR · 1987</div></div>
+ <img class="studio" src="images/aguirre-games.png" alt="Aguirre Games">
+ <button class="homeBtn" id="externalHome"><span class="homeIcon">⌂</span>HOME</button>
+</header>
 
-  <div class="panel stats">
-    <div class="stat">TAG<b id="day">1/30</b></div>
-    <div class="stat">PESOS<b id="cash">2.000</b></div>
-    <div class="stat">TASCHE<b id="bag">0/20</b></div>
-    <div class="stat">LEBEN<b id="hp">100</b></div>
-    <div class="stat">FAHNDUNG<b class="stars" id="heat">☆ ☆ ☆ ☆ ☆</b></div>
-  </div>
+<main>
+<section id="dashboard" class="screen active">
+ <div class="card stats">
+   <div class="stat">TAG<b id="dayStat">1/20</b></div><div class="stat">PESOS<b id="cashStat">2.000</b></div><div class="stat">TASCHE<b id="bagStat">0/20</b></div><div class="stat">LEBEN<b id="hpStat">100</b></div><div class="stat">FAHNDUNG<b id="heatStat" class="stars">☆☆☆☆☆</b></div>
+ </div>
+ <div class="card paper hero"><img src="images/player-cartelito.jpg" alt="Cartelito"><div><h2 id="heroCity">Santa Coca</h2><p id="heroDesc"></p><p><b>Ruf:</b> <span id="heroRep">0</span> · <b>Vermögen:</b> <span id="heroWealth">2.000</span></p><span class="rank" id="heroRank">Hawaiihemd-Händler</span></div></div>
+ <div class="radio" id="radio">📻 RADIO LOCO: „Heute 32 Grad. Morgen vermutlich auch.“</div>
+ <div class="card"><h2 class="sectionTitle">🎮 Was jetzt?</h2><div class="quick"><button data-screen="travel">🗺️ REISEN</button><button id="openMarket">🧾 MERCADO</button><button data-screen="inventory">🎒 INVENTAR</button><button data-screen="history">📈 PREIS-HISTORIE</button></div></div>
+ <div class="card"><h2 class="sectionTitle">📻 Letztes Ereignis</h2><div id="lastEvent">Dein Onkel hat dir 2.000 Pesos gegeben und gesagt: „Mach was Vernünftiges damit.“</div></div>
+</section>
 
-  <div class="grid">
-    <div>
-      <div class="panel paper">
-        <div class="cityCard">
-          <div class="avatar">
-            <div class="face" id="face">🥸</div>
-            <div class="badge" id="rank">Hawaiihemd-Händler</div>
-          </div>
-          <div>
-            <h2 id="cityName">Santa Coca</h2>
-            <div id="cityDesc">Tropische Hauptstadt. Viel Kaffee, noch mehr Gerüchte.</div>
-            <p><b>Ruf:</b> <span id="rep">0</span> · <b>Vermögen:</b> <span id="wealth">2.000</span> Pesos</p>
-          </div>
-        </div>
-      </div>
+<section id="travel" class="screen"><div class="card"><h2 class="sectionTitle">🗺️ Reisen <small>Jede Reise kostet 1 Tag</small></h2><div class="citygrid" id="cityGrid"></div></div><div class="card"><p>Nach der Ankunft öffnet sich automatisch der <b>Mercado der neuen Stadt</b>. Dort handelst du – und gehst danach zurück zur Übersicht.</p></div></section>
 
-      <div class="panel paper market" style="margin-top:14px">
-        <h2>🧾 Mercado</h2>
-        <table>
-          <thead><tr><th>Ware</th><th>Preis</th><th>Bestand</th><th>Ø Einkauf</th><th>Aktion</th></tr></thead>
-          <tbody id="marketBody"></tbody>
-        </table>
-        <small>Satirische Fantasiewaren – keine reale Handelslogik.</small>
-      </div>
-    </div>
+<section id="market" class="screen"><div class="card paper"><div class="marketHead"><h2 id="marketTitle">🧾 Mercado</h2><div>Aktueller Preis<br>vs. Ø Einkauf</div></div><div class="goods" id="goods"></div><div class="tiny">Grün = aktueller Preis über deinem Ø Einkauf · Rot = darunter.</div></div><div class="card"><button class="dark" data-screen="dashboard">← ZUR ÜBERSICHT</button></div></section>
 
-    <div>
-      <div class="panel">
-        <h2>🗺️ Reisen</h2>
-        <div class="cityBtns" id="cityButtons"></div>
-        <p><small class="note">Jede Reise kostet einen Tag. Miami wird je nach Spieldauer später freigeschaltet.</small></p>
-      </div>
+<section id="inventory" class="screen"><div class="card"><h2 class="sectionTitle">🎒 Dein Warenlager</h2><div id="inventoryRows"></div></div><div class="card"><b>Gesamtwert:</b> <span id="inventoryValue"></span> Pesos</div></section>
 
-      <div class="panel" style="margin-top:14px">
-        <h2>🎒 Inventar</h2>
-        <div class="inv" id="inventory"></div>
-      </div>
+<section id="history" class="screen"><div class="card"><h2 class="sectionTitle">📈 Preis-Historie</h2><div class="historyTabs" id="historyTabs"></div><div class="chart" id="chart"></div><div class="historyMeta" id="historyMeta"></div></div></section>
+</main>
 
-      <div class="panel" style="margin-top:14px">
-        <h2>📻 Ereignis</h2>
-        <div class="event" id="eventBox"><strong>Willkommen, Amigo.</strong>
-Dein Onkel hat dir 2.000 Pesos gegeben und gesagt: „Mach was Vernünftiges damit.“
-Du hast offensichtlich andere Pläne.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">CARTELITO · fiktive Satire · Retro-Browsergame</div>
+<nav class="bottomnav"><button data-screen="dashboard" class="on"><span class="ico">⌂</span>ÜBERSICHT</button><button data-screen="travel"><span class="ico">🗺️</span>REISEN</button><button data-screen="inventory"><span class="ico">🎒</span>INVENTAR</button><button data-screen="history"><span class="ico">📈</span>HISTORY</button></nav>
 </div>
 
-
-<div class="modal show" id="startModal">
-  <div class="modalBox">
-    <h2>🎬 WIE LANGE HÄLTST DU DURCH?</h2>
-    <p>Wähle die Länge deiner Karriere in San Escobar.</p>
-    <div class="startOptions">
-      <button onclick="startGame(10)">10 TAGE<br><small>Kurz & brutal</small></button>
-      <button onclick="startGame(20)">20 TAGE<br><small>Der Klassiker</small></button>
-      <button onclick="startGame(30)">30 TAGE<br><small>Volle Telenovela</small></button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="choiceModal">
-  <div class="modalBox">
-    <h2 id="choiceTitle">🚨 ÄRGER</h2>
-    <div id="choiceText"></div>
-    <div class="choiceRow" id="choiceButtons"></div>
-  </div>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modalBox">
-    <h2 id="modalTitle">GAME OVER</h2>
-    <div id="modalText"></div>
-    <p><button onclick="restart()">NOCHMAL SPIELEN</button></p>
-  </div>
-</div>
+<div class="overlay show" id="startOverlay"><div class="eventbox"><div class="eventbody startbox"><img class="startLogo" src="images/aguirre-games.png" alt="Aguirre Games"><h1>CARTELITO</h1><p>Wie lange hältst du in San Escobar durch?</p><div class="days"><button data-days="10">10 TAGE</button><button data-days="20">20 TAGE</button><button data-days="30">30 TAGE</button></div><div class="smallprint">Satirisches Fantasiespiel · alle Orte und Ereignisse sind fiktiv.</div></div></div></div>
+<div class="overlay" id="eventOverlay"><div class="eventbox"><img class="eventimg" id="eventImage" alt="Comic-Ereignis"><div class="eventbody"><h2 id="eventTitle"></h2><p id="eventText"></p><div class="effect" id="eventEffect"></div><div class="choices" id="eventChoices"></div></div></div></div>
+<div class="toast" id="toast"></div>
 
 <script>
-const goods = [
-  {name:"☕ Kaffee", base:120},
-  {name:"🍬 Puderzucker", base:240},
-  {name:"🌿 Kräuterpakete", base:180},
-  {name:"🔞 Schmuddelfilmchen", base:90},
-  {name:"🪙 Goldkettchen", base:450},
-  {name:"🚬 Zigarren", base:300}
+(()=>{
+const HOME_URL='https://andiaguirre81.github.io/';
+const goods=[
+ {id:'coffee',name:'☕ Kaffee',base:180},{id:'sugar',name:'🍬 Puderzucker',base:280},{id:'herbs',name:'🌿 Kräuterpakete',base:160},{id:'films',name:'🔞 Schmuddelfilmchen',base:120},{id:'gold',name:'🪙 Goldkettchen',base:480},{id:'cigars',name:'🚬 Zigarren',base:330}
 ];
-
-const cities = [
-  {name:"Santa Coca", desc:"Tropische Hauptstadt. Viel Kaffee, noch mehr Gerüchte."},
-  {name:"Puerto Loco", desc:"Hafenstadt mit zweifelhaften Lagerhäusern und sehr neugierigen Möwen."},
-  {name:"Medellín del Mar", desc:"Berge, Villen und Männer mit Sonnenbrillen bei Nacht."},
-  {name:"Villa Pablo", desc:"Hier kennt jeder jemanden, der jemanden kennt."},
-  {name:"San Gringo", desc:"Grenzstadt. Auf jeder Straßenseite steht ein anderer Cousin."},
-  {name:"Miami", desc:"Pastellfarben, Palmen und auffällig viele Bundesbehörden.", unlock:15}
+const cities=[
+ {name:'Santa Coca',desc:'Tropische Hauptstadt. Viel Kaffee, noch mehr Gerüchte.',m:[.9,1.2,1,.9,1.1,1]},
+ {name:'Puerto Loco',desc:'Hafenstadt mit sehr neugierigen Möwen.',m:[.8,1.05,1.1,1.2,1, .75]},
+ {name:'Medellín del Mar',desc:'Berge, Villen und Sonnenbrillen bei Nacht.',m:[1.15,.9,.8,1.15,1.25,1.1]},
+ {name:'Villa Pablo',desc:'Hier kennt jeder jemanden, der jemanden kennt.',m:[1,.85,1.25,.95,1.15,1.2]},
+ {name:'San Gringo',desc:'Grenzstadt. Auf jeder Straßenseite ein anderer Cousin.',m:[1.2,1.15,.9,1.25,.9,.95]},
+ {name:'Miami',desc:'Pastellfarben, Palmen und auffällig viele Bundesbehörden.',m:[1.45,1.35,1.5,1.6,1.4,1.35]}
 ];
-
-let state;
-
-function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-function fmt(n){ return Math.round(n).toLocaleString("de-DE"); }
-
-function freshPrices(){
-  let obj={};
-  goods.forEach(g=>{
-    let factor = 0.55 + Math.random()*1.3;
-    obj[g.name]=Math.max(20,Math.round(g.base*factor/10)*10);
-  });
-  return obj;
-}
-
-function reset(days=30){
-  state={
-    day:1,maxDays:days,cash:2000,hp:100,heat:0,rep:0,capacity:20,
-    city:0, inventory:{}, avgBuy:{}, prices:freshPrices(), lastEvent:""
-  };
-  goods.forEach(g=>{state.inventory[g.name]=0;state.avgBuy[g.name]=0;});
-}
-
-function startGame(days){
-  reset(days);
-  document.getElementById("startModal").classList.remove("show");
-  showEvent("🎬 "+days+" Tage San Escobar.\nDein Onkel hat dir 2.000 Pesos gegeben und gesagt: „Mach was Vernünftiges damit.“");
-  render();
-}
-
-const events = [
-  {txt:"⛪ Eine religiöse Sekte übernimmt das Kulturministerium. Schmuddelfilmchen werden verboten – die Preise explodieren.", act:s=>s.prices["🔞 Schmuddelfilmchen"]*=3},
-  {txt:"🍬 Der Präsident braucht dringend Puderzucker für einen 'Staatsempfang'. Er zahlt absurd hohe Preise.", act:s=>s.prices["🍬 Puderzucker"]*=3},
-  {txt:"🌼 Eine verrückte Hippie-Sekte gewinnt die Wahl. 'Alles gehört allen!' Kräuterpakete sind fast wertlos.", act:s=>s.prices["🌿 Kräuterpakete"]=Math.max(10,Math.round(s.prices["🌿 Kräuterpakete"]*.25))},
-  {txt:"🔞 Nationale Moralpanik! Schmuddelfilmchen seien schuld am Untergang der Jugend. Preise steigen.", act:s=>s.prices["🔞 Schmuddelfilmchen"]*=2},
-  {txt:"☕ Der Präsident erklärt Kaffee zum patriotischen Grundnahrungsmittel. Preise steigen.", act:s=>s.prices["☕ Kaffee"]*=2},
-  {txt:"🚬 Ein internationaler Zigarrenkongress landet versehentlich in San Escobar. Nachfrage explodiert.", act:s=>s.prices["🚬 Zigarren"]*=2},
-  {txt:"🪙 Ein Popstar trägt plötzlich zehn Goldketten gleichzeitig. Das Land dreht durch.", act:s=>s.prices["🪙 Goldkettchen"]*=2},
-  {txt:"🐴 Dein Cousin hat ein Pferd gekauft. Natürlich von deinem Geld. -500 Pesos.", act:s=>s.cash=Math.max(0,s.cash-500)},
-  {txt:"💸 Cousin Ramón zahlt endlich seine Schulden. Niemand weiß, woher das Geld kommt. +700 Pesos.", act:s=>s.cash+=700},
-  {txt:"🧳 Ein Schneider baut dir ein geheimes Fach in den Koffer. Tasche +5.", act:s=>s.capacity+=5},
-  {txt:"📺 Ein US-Sender will eine Serie über dich drehen. Fahndung +1, Ruf +3.", act:s=>{s.rep+=3;s.heat=Math.min(5,s.heat+1)}},
-  {txt:"🎺 Du finanzierst spontan ein Straßenfest. Ruf +2, -250 Pesos.", act:s=>{s.cash=Math.max(0,s.cash-250);s.rep+=2}},
-  {txt:"🕶️ Ein Mann im weißen Anzug warnt dich: 'Heute besser unauffällig.' Fahndung -1.", act:s=>s.heat=Math.max(0,s.heat-1)},
-  {txt:"📰 Der Finanzminister sagt: 'Die Lage ist vollkommen unter Kontrolle.' Alle Preise springen durcheinander.", act:s=>s.prices=freshPrices()},
+let S=null, selectedHistory='coffee';
+const $=q=>document.querySelector(q), $$=q=>[...document.querySelectorAll(q)];
+const fmt=n=>Math.round(n).toLocaleString('de-DE');
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function prices(){let o={};goods.forEach((g,i)=>{let f=.62+Math.random()*1.15;o[g.id]=Math.max(20,Math.round(g.base*cities[S?S.city:0].m[i]*f/10)*10)});return o}
+function init(days){S={day:1,maxDays:days,cash:2000,hp:100,heat:0,rep:0,cap:20,city:0,inv:{},avg:{},history:{},prices:{},last:'Neue Karriere in San Escobar.'};goods.forEach(g=>{S.inv[g.id]=0;S.avg[g.id]=0;S.history[g.id]=[]});S.prices=prices();recordPrices();$('#startOverlay').classList.remove('show');render();go('dashboard')}
+function used(){return Object.values(S.inv).reduce((a,b)=>a+b,0)}
+function wealth(){return S.cash+goods.reduce((a,g)=>a+S.inv[g.id]*S.prices[g.id],0)}
+function rank(){let w=wealth();return w<8000?'Hawaiihemd-Händler':w<25000?'Don Sonnenbrille':w<80000?'El Patrón del Parkplatz':w<250000?'Señor Business':'DON CARTELITO'}
+function recordPrices(){goods.forEach(g=>{S.history[g.id].push(S.prices[g.id]);if(S.history[g.id].length>12)S.history[g.id].shift()})}
+function say(t){S.last=t;$('#lastEvent').textContent=t}
+function toast(t){let el=$('#toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1400)}
+function buy(id){let p=S.prices[id],old=S.inv[id];if(S.cash<p)return toast('Nicht genug Pesos.');if(used()>=S.cap)return toast('Deine Tasche ist voll.');S.cash-=p;S.inv[id]++;S.avg[id]=(S.avg[id]*old+p)/(old+1);S.rep++;render()}
+function sell(id){if(S.inv[id]<=0)return toast('Davon hast du nichts.');S.cash+=S.prices[id];S.inv[id]--;if(!S.inv[id])S.avg[id]=0;S.rep++;render()}
+const events=[
+ {img:'images/event-padre-fuego.jpg',title:'¡DIOS MÍO!',text:'Padre Fuego und seine religiöse Sekte übernehmen das Kulturministerium. Schmuddelfilmchen werden sofort verboten.',effect:'Schmuddelfilmchen-Preis ×4.',apply(){S.prices.films*=4;S.heat=Math.min(5,S.heat+1)}},
+ {img:'images/event-presidente.jpg',title:'EL PRESIDENTE BRAUCHT PUDERZUCKER!',text:'Für seinen Geburtstagskuchen braucht der Präsident angeblich 14 Tonnen. Natürlich nur das Beste.',effect:'Puderzucker-Preis ×5.',apply(){S.prices.sugar*=5}},
+ {img:'images/event-hippie.jpg',title:'HIPPIE-REVOLUTION!',text:'Comandante Mariposa gewinnt die Wahl. „Alles gehört allen!“ Kräuterpakete sind plötzlich praktisch gratis.',effect:'Kräuterpakete verlieren 80 % ihres Wertes.',apply(){S.prices.herbs=Math.max(10,Math.round(S.prices.herbs*.2))}},
+ {img:'images/event-cia.jpg',title:'AGENT JOHNSON',text:'Ein verdächtig amerikanischer Mann fragt nach deinem „Kaffeegeschäft“.',effect:'Wähle deine Reaktion.',choices:[['😎 UNAUFFÄLLIG BLEIBEN',()=>{if(Math.random()<.65){S.heat=Math.max(0,S.heat-1);say('Agent Johnson langweilt sich und fährt weiter.')}else{S.heat++;say('Johnson merkt sich dein Gesicht. Fahndung +1.')}}],['🏃 FLIEHEN',()=>{if(Math.random()<.45){S.hp-=12;S.heat++;say('Du entkommst knapp. -12 Leben, Fahndung +1.')}else say('Du verschwindest durch eine Wäscherei. Klassisch.')}],['☕ KAFFEE ANBIETEN',()=>{S.cash=Math.max(0,S.cash-250);if(Math.random()<.55){S.heat=Math.max(0,S.heat-1);say('Johnson liebt den Kaffee. Das ist irritierend hilfreich.')}else say('Johnson trinkt entkoffeiniert. Die Sache wird unangenehm.')}]]},
+ {img:'images/event-policia.jpg',title:'POLIZEIKONTROLLE!',text:'Capitán González findet deine Papiere „leider nicht ganz in Ordnung“.',effect:'Eine kleine Aufmerksamkeit könnte helfen.',choices:[['💵 300 ZAHLEN',()=>{S.cash=Math.max(0,S.cash-300);S.heat=Math.max(0,S.heat-1);say('Die Papiere sind plötzlich hervorragend.')}],['🙅 NICHT ZAHLEN',()=>{if(Math.random()<.5){S.heat++;say('González ist beleidigt. Fahndung +1.')}else say('Er wird zu einer wichtigeren Mittagspause gerufen.')}]]},
+ {img:'images/event-shootout.jpg',title:'SCHIESSEREI IN DEN STRASSEN!',text:'Zwei rivalisierende Comic-Gangster geraten aneinander. Du bist genau dazwischen.',effect:'Sicherheit oder Geschwindigkeit?',choices:[['🚪 VERSTECKEN',()=>{if(Math.random()<.25){loseOne();say('Du bleibst heil, aber im Gedränge fehlt eine Ware.')}else say('Die Obstkiste hält. Qualitätsmöbel.')}],['🏃 VOLLGAS',()=>{if(Math.random()<.35){S.hp-=10;say('Du stolperst beim Sprint. -10 Leben.')}else say('Persönlicher Rekord über 100 Meter.')}]]}
 ];
-
-const heatEvents = [
-  "🚓 POLICÍA! Du verlierst 10 Leben beim chaotischen Davonlaufen.",
-  "🕵️ Zwei Männer mit Sonnenbrillen lesen deine Zeitung verkehrt herum.",
-  "🚁 Ein Hubschrauber kreist. Bestimmt nur Verkehrsfunk.",
-  "🇺🇸 Jemand sagt sehr amerikanisch: „Nice coffee business.“",
-];
-
-function loseRandomGoods(n){
-  let owned=goods.filter(g=>state.inventory[g.name]>0);
-  for(let i=0;i<n && owned.length;i++){
-    let g=owned[rand(0,owned.length-1)];
-    state.inventory[g.name]--;
-    if(state.inventory[g.name]===0) state.avgBuy[g.name]=0;
-    owned=goods.filter(x=>state.inventory[x.name]>0);
-  }
-}
-
-function showChoice(title,text,choices){
-  document.getElementById("choiceTitle").textContent=title;
-  document.getElementById("choiceText").textContent=text;
-  const box=document.getElementById("choiceButtons"); box.innerHTML="";
-  choices.forEach(c=>{
-    const b=document.createElement("button"); b.textContent=c.label;
-    b.onclick=()=>{document.getElementById("choiceModal").classList.remove("show");c.action();checkEnd();render();};
-    box.appendChild(b);
-  });
-  document.getElementById("choiceModal").classList.add("show");
-}
-
-function ciaEvent(){
-  showChoice("🕵️ CIA?","Ein schwarzer Wagen folgt dir seit drei Straßen. Dann knallt irgendwo eine Mülltonne. Vielleicht ein Anschlag. Vielleicht Dienstag.",[
-    {label:"🏃 FLIEHEN",action:()=>{if(Math.random()<.35){state.hp-=15;showEvent("💥 Du entkommst, aber nicht elegant. -15 Leben.");}else showEvent("🏃 Du verschwindest durch eine Wäscherei. Niemand stellt Fragen.");}},
-    {label:"🕶️ COOL BLEIBEN",action:()=>{if(Math.random()<.5){state.heat=Math.max(0,state.heat-1);showEvent("😎 Du bestellst einen Kaffee. Die Männer fahren weiter.");}else{state.heat=Math.min(5,state.heat+1);showEvent("📸 Schlechte Idee. Jemand fotografiert dich. Fahndung +1.");}}}
-  ]);
-}
-
-function shootoutEvent(){
-  showChoice("🔫 SCHÜSSE IN DER NACHT","Zwei rivalisierende Comic-Gangster geraten auf der Straße aneinander. Du bist leider genau dazwischen.",[
-    {label:"🚪 VERSTECKEN",action:()=>{if(Math.random()<.25){loseRandomGoods(1);showEvent("🚪 Du bist sicher, aber im Gedränge verschwindet eine Ware.");}else showEvent("🚪 Eine sehr stabile Obstkiste rettet den Abend.");}},
-    {label:"🏃 ABHAUEN",action:()=>{if(Math.random()<.3){state.hp-=10;showEvent("💨 Du stolperst beim Sprint. -10 Leben.");}else showEvent("💨 Neuer persönlicher Rekord über 100 Meter.");}}
-  ]);
-}
-
-function policeEvent(){
-  showChoice("🚓 POLICÍA!","Eine Kontrolle. Der Beamte schaut erst dich an, dann deine Tasche, dann wieder dich.",[
-    {label:"🙂 HARMLOS TUN",action:()=>{if(Math.random()<.55){state.heat=Math.max(0,state.heat-1);showEvent("🙂 'Nur Geschenke für die Familie.' Er glaubt dir überraschend.");}else{state.cash=Math.max(0,state.cash-300);showEvent("💸 Verwaltungsgebühr. Natürlich ohne Quittung. -300 Pesos.");}}},
-    {label:"🏃 WEG!",action:()=>{if(Math.random()<.45){state.hp-=10;state.heat=Math.min(5,state.heat+1);showEvent("🚓 Flucht geglückt-ish. -10 Leben, Fahndung +1.");}else showEvent("🏃 Du springst in einen Bus. Der Fahrer fragt nichts.");}}
-  ]);
-}
-
-function travel(idx){
-  if(idx===state.city) return;
-  const unlock=Math.max(4,Math.ceil(state.maxDays*.5));
-  if(idx===5 && state.day<unlock){showEvent("🔒 Miami ist erst ab Tag "+unlock+" erreichbar.");return;}
-  state.day++; state.city=idx; state.prices=freshPrices();
-  const roll=Math.random();
-  if(roll<.10) ciaEvent();
-  else if(roll<.20) shootoutEvent();
-  else if(roll<.31 || (state.heat>=3 && roll<.42)) policeEvent();
-  else if(roll<.82){let e=events[rand(0,events.length-1)];e.act(state);showEvent(e.txt);}
-  else showEvent("✈️ VIAJANDO A "+cities[idx].name.toUpperCase()+"…\nDie Reise war verdächtig ereignislos.");
-  if(Math.random()<.14) state.heat=Math.min(5,state.heat+1);
-  if(Math.random()<.12) state.heat=Math.max(0,state.heat-1);
-  checkEnd(); render();
-}
-
-function slotsUsed(){
-  return Object.values(state.inventory).reduce((a,b)=>a+b,0);
-}
-
-function buy(name){
-  let p=state.prices[name], old=state.inventory[name];
-  if(state.cash<p){ showEvent("💸 Nicht genug Pesos, Amigo."); return;}
-  if(slotsUsed()>=state.capacity){ showEvent("🎒 Deine Tasche ist voll."); return;}
-  state.cash-=p;
-  state.inventory[name]++;
-  state.avgBuy[name]=((state.avgBuy[name]*old)+p)/(old+1);
-  state.rep++;
-  if(Math.random()<0.04) state.heat=Math.min(5,state.heat+1);
-  render();
-}
-
-function sell(name){
-  if(state.inventory[name]<=0) return;
-  let p=state.prices[name];
-  state.cash+=p;
-  state.inventory[name]--;
-  if(state.inventory[name]===0) state.avgBuy[name]=0;
-  state.rep++;
-  render();
-}
-
-function totalWealth(){
-  let w=state.cash;
-  goods.forEach(g=>w+=state.inventory[g.name]*state.prices[g.name]);
-  return w;
-}
-
-function rankData(){
-  let w=totalWealth();
-  if(w<8000) return ["🥸","Hawaiihemd-Händler"];
-  if(w<25000) return ["😎","Don Sonnenbrille"];
-  if(w<80000) return ["🕴️","El Patrón del Parkplatz"];
-  if(w<250000) return ["🤵","Señor Business"];
-  return ["👑","DON CARTELITO"];
-}
-
-function showEvent(txt){
-  state.lastEvent=txt;
-  document.getElementById("eventBox").innerHTML="<strong>"+txt.split("\n")[0]+"</strong>"+(txt.includes("\n")?"\n"+txt.split("\n").slice(1).join("\n"):"");
-}
-
-function render(){
-  document.getElementById("day").textContent=state.day+"/"+state.maxDays;
-  document.getElementById("cash").textContent=fmt(state.cash);
-  document.getElementById("bag").textContent=slotsUsed()+"/"+state.capacity;
-  document.getElementById("hp").textContent=state.hp;
-  document.getElementById("heat").textContent="★ ".repeat(state.heat)+"☆ ".repeat(5-state.heat);
-  document.getElementById("rep").textContent=state.rep;
-  document.getElementById("wealth").textContent=fmt(totalWealth());
-  document.getElementById("cityName").textContent=cities[state.city].name;
-  document.getElementById("cityDesc").textContent=cities[state.city].desc;
-  let rd=rankData(); document.getElementById("face").textContent=rd[0]; document.getElementById("rank").textContent=rd[1];
-
-  const body=document.getElementById("marketBody");
-  body.innerHTML="";
-  goods.forEach(g=>{
-    let tr=document.createElement("tr");
-    let avg=state.avgBuy[g.name]>0?fmt(state.avgBuy[g.name]):"–";
-    let cls=state.avgBuy[g.name]>0?(state.prices[g.name]>=state.avgBuy[g.name]?"priceGood":"priceBad"):"";
-    tr.innerHTML=`<td>${g.name}</td><td class="${cls}">${fmt(state.prices[g.name])}</td><td>${state.inventory[g.name]}</td><td>${avg}</td>
-      <td><button onclick='buy(${JSON.stringify(g.name)})'>BUY</button><button class="secondary" onclick='sell(${JSON.stringify(g.name)})'>SELL</button></td>`;
-    body.appendChild(tr);
-  });
-
-  const inv=document.getElementById("inventory");
-  inv.innerHTML="";
-  goods.forEach(g=>{
-    if(state.inventory[g.name]>0){
-      inv.innerHTML += `<div>${g.name}<br><small>Ø Einkauf: ${fmt(state.avgBuy[g.name])}</small></div><div>${state.inventory[g.name]}×</div>`;
-    }
-  });
-  if(slotsUsed()===0) inv.innerHTML="<div>Leer. Nur ein zerknittertes Foto deiner Mutter.</div><div></div>";
-
-  const cb=document.getElementById("cityButtons");
-  cb.innerHTML="";
-  cities.forEach((c,i)=>{
-    let unlock=Math.max(4,Math.ceil(state.maxDays*.5)); let locked=(i===5 && state.day<unlock);
-    cb.innerHTML += `<button ${i===state.city||locked?"disabled":""} onclick="travel(${i})">${locked?"🔒 ":""}${c.name}</button>`;
-  });
-
-  document.getElementById("ticker").textContent = tickerLines[rand(0,tickerLines.length-1)];
-}
-
-const tickerLines=[
-  '📺 CANAL 7: "Die Wirtschaft boomt. Niemand weiß warum."',
-  '📻 RADIO LOCO: "Heute 32 Grad. Morgen vermutlich auch."',
-  '📰 EL DIARIO: "Minister bestreitet alles. Noch bevor jemand gefragt hat."',
-  '📺 TELENOVELA: "¡MIGUEL! Du bist mein Bruder UND mein Anwalt?!"',
-  '⚽ SPORT: San Escobar verliert 0:4. Nationaler Feiertag trotzdem bestätigt.',
-  '🕵️ BREAKING: Regierung dementiert Existenz des Gebäudes, vor dem sie gerade steht.',
-  '📻 RADIO LOCO: Der Präsident verspricht stabile Preise. Händler lachen hörbar.'
-];
-
-function checkEnd(){
-  if(state.hp<=0){
-    endGame("GAME OVER","Du bist beim Davonlaufen über einen dekorativen Springbrunnen gefallen.<br><br><b>Die Polizei war ebenfalls überrascht.</b>");
-    return;
-  }
-  if(state.day>state.maxDays){
-    finish();
-  }
-}
-
-function finish(){
-  let w=totalWealth();
-  let title="",text="";
-  if(w<10000){title="☕ KAFFEEKÖNIG";text="Du besitzt jetzt einen ausgezeichneten Kaffeestand.";}
-  else if(w<50000){title="😎 EL PATRÓN DEL PARKPLATZ";text="Drei Leute nennen dich Don. Zwei davon sind deine Cousins.";}
-  else if(w<150000){title="🏝️ SEÑOR BUSINESS";text="Du besitzt eine Villa, einen Pool und aus irgendeinem Grund sechs Pfauen.";}
-  else if(w<500000){title="📺 STREAMING-LEGENDE";text="Ein Streamingdienst hat bereits fünf Staffeln über dich bestellt.";}
-  else {title="👑 DU HAST SAN ESCOBAR DURCHGESPIELT";text="Uncle Sam möchte dringend mit dir über dein Exportgeschäft sprechen.";}
-  text+=`<br><br><b>Endvermögen: ${fmt(w)} Pesos</b><br>Ruf: ${state.rep} · Fahndung: ${state.heat}/5`;
-  endGame(title,text);
-}
-
-function endGame(title,text){
-  document.getElementById("modalTitle").innerHTML=title;
-  document.getElementById("modalText").innerHTML=text;
-  document.getElementById("modal").classList.add("show");
-}
-
-function restart(){
-  document.getElementById("modal").classList.remove("show");
-  document.getElementById("startModal").classList.add("show");
-}
-
-reset(30); render();
+function loseOne(){let a=goods.filter(g=>S.inv[g.id]>0);if(!a.length)return;let g=a[rnd(0,a.length-1)];S.inv[g.id]--;if(!S.inv[g.id])S.avg[g.id]=0}
+function randomEvent(){if(Math.random()>.72){say('Die Reise war verdächtig ereignislos.');return go('market')}let ev=events[rnd(0,events.length-1)];showEvent(ev,()=>go('market'))}
+function showEvent(ev,after){$('#eventImage').src=ev.img;$('#eventTitle').textContent=ev.title;$('#eventText').textContent=ev.text;$('#eventEffect').textContent=ev.effect||'';let c=$('#eventChoices');c.innerHTML='';let choices=ev.choices||[['OK',()=>{if(ev.apply)ev.apply();say(ev.title+' '+ev.effect)}]];c.className='choices'+(choices.length===1?' one':'');choices.forEach(([label,fn])=>{let b=document.createElement('button');b.textContent=label;b.addEventListener('click',()=>{fn();$('#eventOverlay').classList.remove('show');recordPrices();render();if(S.hp<=0)return endGame('GAME OVER','San Escobar schreibt bereits eine sehr ungenaue Ballade über dich.');if(after)after()});c.appendChild(b)});$('#eventOverlay').classList.add('show')}
+function travel(i){if(i===S.city)return;let unlock=Math.max(4,Math.ceil(S.maxDays*.5));if(i===5&&S.day<unlock)return toast('Miami ab Tag '+unlock);S.day++;S.city=i;S.prices=prices();if(Math.random()<.13)S.heat=Math.min(5,S.heat+1);if(Math.random()<.10)S.heat=Math.max(0,S.heat-1);if(S.day>S.maxDays)return finish();render();randomEvent()}
+function finish(){let w=wealth(),t=w<10000?'KAFFEEKÖNIG':w<50000?'EL PATRÓN DEL PARKPLATZ':w<150000?'SEÑOR BUSINESS':w<500000?'STREAMING-LEGENDE':'DU HAST SAN ESCOBAR DURCHGESPIELT';showEvent({img:'images/player-cartelito.jpg',title:t,text:'Deine Karriere ist beendet.',effect:'Endvermögen: '+fmt(w)+' Pesos · Ruf '+S.rep+' · Fahndung '+S.heat+'/5',choices:[['NEUES SPIEL',()=>{location.reload()}]]})}
+function endGame(t,x){showEvent({img:'images/event-shootout.jpg',title:t,text:x,effect:'Endvermögen: '+fmt(wealth())+' Pesos',choices:[['NEUES SPIEL',()=>location.reload()]]})}
+function go(id){$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id));$$('.bottomnav button').forEach(b=>b.classList.toggle('on',b.dataset.screen===id));window.scrollTo({top:0,behavior:'smooth'});render()}
+function render(){if(!S)return;$('#dayStat').textContent=S.day+'/'+S.maxDays;$('#cashStat').textContent=fmt(S.cash);$('#bagStat').textContent=used()+'/'+S.cap;$('#hpStat').textContent=S.hp;$('#heatStat').textContent='★'.repeat(S.heat)+'☆'.repeat(5-S.heat);$('#heroCity').textContent=cities[S.city].name;$('#heroDesc').textContent=cities[S.city].desc;$('#heroRep').textContent=S.rep;$('#heroWealth').textContent=fmt(wealth());$('#heroRank').textContent=rank();$('#lastEvent').textContent=S.last;renderCities();renderMarket();renderInventory();renderHistory()}
+function renderCities(){let g=$('#cityGrid');g.innerHTML='';let unlock=Math.max(4,Math.ceil(S.maxDays*.5));cities.forEach((c,i)=>{let b=document.createElement('button');let locked=i===5&&S.day<unlock;b.textContent=(locked?'🔒 ':'')+c.name;b.disabled=i===S.city||locked;if(i===S.city)b.classList.add('current');b.addEventListener('click',()=>travel(i));g.appendChild(b)})}
+function renderMarket(){let m=$('#goods');$('#marketTitle').textContent='🧾 Mercado – '+cities[S.city].name;m.innerHTML='';goods.forEach(g=>{let row=document.createElement('div');row.className='good';let cls=S.avg[g.id]?(S.prices[g.id]>=S.avg[g.id]?'profit':'loss'):'';row.innerHTML='<div class="gname">'+g.name+'<br><span class="tiny">Bestand '+S.inv[g.id]+'</span></div><div class="gprice '+cls+'">'+fmt(S.prices[g.id])+'</div><div class="gavg">'+(S.avg[g.id]?fmt(S.avg[g.id]):'–')+'</div><div class="trade"><button>BUY</button><button class="alt">SELL</button></div>';let [bb,ss]=row.querySelectorAll('button');bb.addEventListener('click',()=>buy(g.id));ss.addEventListener('click',()=>sell(g.id));m.appendChild(row)})}
+function renderInventory(){let box=$('#inventoryRows');box.innerHTML='';let owned=goods.filter(g=>S.inv[g.id]);if(!owned.length)box.innerHTML='<div class="empty">Leer. Nur ein zerknittertes Foto deiner Mutter.</div>';owned.forEach(g=>{let d=document.createElement('div');d.className='inventoryRow';d.innerHTML='<div>'+g.name+'<br><span class="tiny">Ø Einkauf '+fmt(S.avg[g.id])+'</span></div><span class="badge">'+S.inv[g.id]+'×</span><b>'+fmt(S.inv[g.id]*S.prices[g.id])+'</b>';box.appendChild(d)});$('#inventoryValue').textContent=fmt(wealth()-S.cash)}
+function renderHistory(){let tabs=$('#historyTabs');tabs.innerHTML='';goods.forEach(g=>{let b=document.createElement('button');b.textContent=g.name;b.className=g.id===selectedHistory?'alt':'dark';b.addEventListener('click',()=>{selectedHistory=g.id;renderHistory()});tabs.appendChild(b)});let vals=S.history[selectedHistory]||[];let max=Math.max(...vals,1),chart=$('#chart');chart.innerHTML='';vals.forEach(v=>{let bar=document.createElement('div');bar.className='bar';bar.style.height=(15+75*v/max)+'%';bar.innerHTML='<span>'+fmt(v)+'</span>';chart.appendChild(bar)});let low=vals.length?Math.min(...vals):0,high=vals.length?Math.max(...vals):0,avg=S.avg[selectedHistory]||0;$('#historyMeta').innerHTML='<div>NIEDRIGST<b>'+fmt(low)+'</b></div><div>HÖCHST<b>'+fmt(high)+'</b></div><div>DEIN Ø<b>'+(avg?fmt(avg):'–')+'</b></div>'}
+$$('[data-screen]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.screen)));$$('[data-days]').forEach(b=>b.addEventListener('click',()=>init(+b.dataset.days)));$('#openMarket').addEventListener('click',()=>go('market'));$('#externalHome').addEventListener('click',()=>{location.href=HOME_URL});
+const radios=['📻 RADIO LOCO: „Heute 32 Grad. Morgen vermutlich auch.“','📰 EL DIARIO: „Minister bestreitet alles. Noch bevor jemand gefragt hat.“','📺 CANAL 7: „Die Wirtschaft boomt. Niemand weiß warum.“','⚽ SPORT: San Escobar verliert 0:4. Nationaler Feiertag trotzdem bestätigt.'];setInterval(()=>{if(S)$('#radio').textContent=radios[rnd(0,radios.length-1)]},7000);
+})();
 </script>
-</body>
-</html>
+</body></html>
